@@ -11,11 +11,8 @@ const WelcomePage = () => {
         <NavLink className="link" to="/create-account-contractor">
           Create Account Contractor
         </NavLink>
-        <NavLink className="link" to="/sign-in-client">
-          Sign In Client
-        </NavLink>
-        <NavLink className="link" to="/sign-in-contractor">
-          Sign In Contractor
+        <NavLink className="link" to="/sign-in">
+          Sign In
         </NavLink>
       </article>
     </main>

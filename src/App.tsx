@@ -2,8 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import WelcomePage from "./components/WelcomePage";
 import CreateAccountClient from "./components/CreateAccountClient";
 import CreateAccountContractor from "./components/CreateAccountContractor";
-import SignInClient from "./components/SignInClient";
-import SignInContractor from "./components/SignInContractor";
+import SignIn from "./components/SignIn";
 
 function App() {
   return (
@@ -14,8 +13,7 @@ function App() {
         path="/create-account-contractor"
         element={<CreateAccountContractor />}
       />
-      <Route path="/sign-in-client" element={<SignInClient />} />
-      <Route path="/sign-in-contractor" element={<SignInContractor />} />
+      <Route path="/sign-in" element={<SignIn />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
