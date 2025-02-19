@@ -8,12 +8,12 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<WelcomePage />} />
-      <Route path="/create-account-client" element={<CreateAccountClient />} />
+      <Route path="/createaccount/client" element={<CreateAccountClient />} />
       <Route
-        path="/create-account-contractor"
+        path="/createaccount/contractor"
         element={<CreateAccountContractor />}
       />
-      <Route path="/sign-in" element={<SignIn />} />
+      <Route path="/signin" element={<SignIn />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

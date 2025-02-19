@@ -2,14 +2,13 @@
   --primary-background: #ffffff;
 
   --black-font: #111111;
-  --grey-font: rgb(17, 17, 17, 0.5);
+  --grey-font: #767676;
   --white-font: #ffffff;
   --secondary-font: #402814;
 
   --input-border: #260101;
-  --dividier: #000000;
-  --button: #260101;
-  --icon: #260101;
+  --button: #421718;
+  --icon: #421718;
 }
 
 * {

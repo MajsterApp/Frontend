@@ -2,14 +2,96 @@
   background-color: var(--primary-background);
   display: flex;
 
-  & > p {
+  & > section {
     height: 100vh;
-    width: 100%;
+    width: 70%;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--black-font);
-    font-size: 1rem;
-    font-weight: 400;
+    flex-direction: column;
+
+    & > article {
+      & > header {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        & > h1 {
+          color: var(--black-font);
+          font-size: 2rem;
+          font-weight: 500;
+        }
+      }
+
+      & > form {
+        display: flex;
+        flex-direction: column;
+        margin-top: 55px;
+
+        .input-with-icon {
+          position: relative;
+
+          & > input {
+            width: calc(27rem + 23px);
+            height: 2.5rem;
+            border: 1.5px solid var(--input-border);
+            border-radius: 5px;
+            outline: none;
+            margin-top: 20px;
+            text-indent: 40px;
+            font-size: 1rem;
+          }
+
+          .icon {
+            position: absolute;
+            right: 15px;
+            top: 65%;
+            transform: translateY(-50%);
+            color: var(--icon);
+            border: none;
+            border: none;
+            background: none;
+            font-size: 1.2rem;
+            padding: 0;
+          }
+
+          .left {
+            left: 10px;
+          }
+
+          .eye {
+            cursor: pointer;
+          }
+        }
+
+        & > button {
+          width: 100%;
+          height: 2.5rem;
+          border-radius: 5px;
+          color: var(--white-font);
+          font-size: 1rem;
+          font-weight: 400;
+          background-color: var(--button);
+          border: none;
+          cursor: pointer;
+          margin-top: 50px;
+        }
+      }
+    }
+  }
+
+  & > aside {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 30%;
+    background-image: url("../../assets/bricks.jpg");
+
+    & > h1 {
+      color: var(--white-font);
+      font-size: 2rem;
+      font-weight: 600;
+    }
   }
 }

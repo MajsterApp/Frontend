@@ -5,13 +5,13 @@ const WelcomePage = () => {
   return (
     <main className="welcome-page">
       <article>
-        <NavLink className="link" to="/create-account-client">
+        <NavLink className="link" to="/createaccount/client">
           Create Account Client
         </NavLink>
-        <NavLink className="link" to="/create-account-contractor">
+        <NavLink className="link" to="/createaccount/contractor">
           Create Account Contractor
         </NavLink>
-        <NavLink className="link" to="/sign-in">
+        <NavLink className="link" to="/signin">
           Sign In
         </NavLink>
       </article>
