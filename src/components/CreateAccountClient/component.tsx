@@ -34,13 +34,6 @@ const CreateAccountClient = () => {
       return;
     }
 
-    const isStrongPassword = (password: string) => password.length >= 8;
-
-    if (!isStrongPassword(password)) {
-      alert("Hasło musi mieć co najmniej 8 znaków.");
-      return;
-    }
-
     const userData = {
       name,
       surname,
@@ -56,7 +49,10 @@ const CreateAccountClient = () => {
       setEmail("");
       setPassword("");
       setRepeatPassword("");
+
+      alert("Successfully created account.");
     } catch (error) {
+      alert("There was a problem with account creation.");
       console.error(error);
     }
   };

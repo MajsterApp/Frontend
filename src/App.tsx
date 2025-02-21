@@ -3,11 +3,13 @@ import WelcomePage from "./components/WelcomePage";
 import CreateAccountClient from "./components/CreateAccountClient";
 import CreateAccountContractor from "./components/CreateAccountContractor";
 import SignIn from "./components/SignIn";
+import HomePage from "./components/HomePage";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<WelcomePage />} />
+      <Route path="/home" element={<HomePage />} />
       <Route path="/createaccount/client" element={<CreateAccountClient />} />
       <Route
         path="/createaccount/contractor"

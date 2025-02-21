@@ -6,6 +6,7 @@ import { IoMdMail } from "react-icons/io";
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 import { LogInContext } from "../../contexts/LogInContext/context";
+import Select from "react-select";
 
 const CreateAccountContractor = () => {
   const { createUser } = useContext(LogInContext);
@@ -15,7 +16,8 @@ const CreateAccountContractor = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
-  const [city, setCity] = useState<string>("");
+  const [jobs, setJobs] = useState<{ value: string; label: string }[]>([]);
+  const [region, setRegion] = useState<string>("");
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isRepeatPasswordVisible, setIsRepeatPasswordVisible] =
     useState<boolean>(false);
@@ -29,17 +31,11 @@ const CreateAccountContractor = () => {
       !email ||
       !password ||
       !repeatPassword ||
-      !city ||
+      !jobs ||
+      !region ||
       password != repeatPassword
     ) {
       alert("Fields are empty or passwords does not match.");
-      return;
-    }
-
-    const isStrongPassword = (password: string) => password.length >= 8;
-
-    if (!isStrongPassword(password)) {
-      alert("Hasło musi mieć co najmniej 8 znaków.");
       return;
     }
 
@@ -48,7 +44,8 @@ const CreateAccountContractor = () => {
       surname,
       email,
       password,
-      city,
+      jobs: jobs.map((job) => job.value),
+      region,
     };
 
     try {
@@ -59,8 +56,12 @@ const CreateAccountContractor = () => {
       setEmail("");
       setPassword("");
       setRepeatPassword("");
-      setCity("");
+      setJobs([]);
+      setRegion("");
+
+      alert("Successfully created account.");
     } catch (error) {
+      alert("There was a problem with account creation.");
       console.error(error);
     }
   };
@@ -71,6 +72,74 @@ const CreateAccountContractor = () => {
 
   const changeRepeatPasswordVisibility = () => {
     setIsRepeatPasswordVisible((prev) => !prev);
+  };
+
+  const options = [
+    { value: "remonty", label: "Remonty" },
+    { value: "instalacje", label: "Instalacje" },
+  ];
+
+  const customStyles = {
+    control: (provided: any, state: any) => ({
+      ...provided,
+      fontSize: "1rem",
+      fontWeight: 400,
+      color: "var(--grey-font)",
+      height: "2rem",
+      width: "15rem",
+      border: "1.5px solid #260101",
+      borderRadius: "5px",
+      outline: "none",
+      display: "flex",
+      overflow: "hidden",
+      boxShadow: state.isFocused ? "none" : "none",
+      "&:hover": {
+        border: "1.5px solid #260101",
+      },
+    }),
+    valueContainer: (provided: any) => ({
+      ...provided,
+      height: "2rem",
+      overflow: "hidden",
+      display: "flex",
+      flexWrap: "nowrap",
+    }),
+    multiValue: (provided: any) => ({
+      ...provided,
+      backgroundColor: "#260101",
+      color: "white",
+      borderRadius: "3px",
+      fontSize: "0.9rem",
+      padding: "0 5px",
+      height: "1.5rem",
+      display: "flex",
+      alignItems: "center",
+    }),
+    multiValueLabel: (provided: any) => ({
+      ...provided,
+      color: "white",
+    }),
+    multiValueRemove: (provided: any) => ({
+      ...provided,
+      color: "white",
+      cursor: "pointer",
+      ":hover": {
+        backgroundColor: "red",
+        color: "white",
+      },
+    }),
+    menu: (provided: any) => ({
+      ...provided,
+      width: "15rem",
+    }),
+    option: (provided: any, state: any) => ({
+      ...provided,
+      backgroundColor: state.isSelected ? "#260101" : "white",
+      color: state.isSelected ? "white" : "black",
+      "&:hover": {
+        backgroundColor: "#d3d3d3",
+      },
+    }),
   };
 
   return (
@@ -152,11 +221,15 @@ const CreateAccountContractor = () => {
             </figure>
             <figure className="services">
               <p>Wykonywane usługi:</p>
-              <select>
-                <option value="">Wybierz usługę</option>
-                <option value="remonty">Remonty</option>
-                <option value="instalacje">Instalacje</option>
-              </select>
+              <Select
+                isMulti
+                options={options}
+                value={jobs}
+                onChange={(selectedOptions) =>
+                  setJobs(selectedOptions as { value: string; label: string }[])
+                }
+                styles={customStyles}
+              />
             </figure>
             <figure className="city">
               <p>Rejon działania</p>
@@ -164,8 +237,8 @@ const CreateAccountContractor = () => {
                 <p>Miasto: </p>
                 <input
                   type="text"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
+                  value={region}
+                  onChange={(e) => setRegion(e.target.value)}
                 />
               </figure>
             </figure>

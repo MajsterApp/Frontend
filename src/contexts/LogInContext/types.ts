@@ -3,7 +3,7 @@ export interface CreateUser {
     surname: string;
     email: string;
     password: string;
-    jobs?: string;
+    jobs?: string[];
     region?: string;
 }
 

@@ -5,6 +5,8 @@ import { IoMdMail } from "react-icons/io";
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 import { LogInContext } from "../../contexts/LogInContext/context";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const { signInUser } = useContext(LogInContext);
@@ -12,6 +14,8 @@ const SignIn = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +32,12 @@ const SignIn = () => {
 
     try {
       signInUser?.(userData);
+
+      const token = Cookies.get("UserToken");
+
+      if (token) {
+        navigate("/home");
+      }
 
       setEmail("");
       setPassword("");
