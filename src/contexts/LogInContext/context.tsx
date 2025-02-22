@@ -10,7 +10,7 @@ const LogInProvider = ({ children }: Props) => {
 
   const createUser = async (userData: CreateUser) => {
     try {
-      await axios.post("http://localhost:3000/api/v1/register", userData, {
+      await axios.post("https://majsterapp.onrender.com/api/v1/register", userData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -23,7 +23,7 @@ const LogInProvider = ({ children }: Props) => {
   const signInUser = async (userData: SignInUser) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/login",
+        "https://majsterapp.onrender.com/api/v1/login",
         userData,
         {
           headers: {
@@ -51,7 +51,7 @@ const LogInProvider = ({ children }: Props) => {
   if (!token) return;
 
   try {
-    const response = await fetch("http://localhost:3000/api/v1/userData", {
+    const response = await fetch("https://majsterapp.onrender.com/api/v1/userData", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
