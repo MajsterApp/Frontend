@@ -1,11 +1,13 @@
-import { createContext } from "react";
-import { Props, ContextType, CreateUser, SignInUser } from "./types";
+import { createContext, useState } from "react";
+import { Props, ContextType, CreateUser, SignInUser, UserData } from "./types";
 import axios from "axios";
 import Cookies from "js-cookie";
 
 export const LogInContext = createContext<Partial<ContextType>>({});
 
 const LogInProvider = ({ children }: Props) => {
+  const [userData, setUserData] = useState<UserData | null>(null);
+
   const createUser = async (userData: CreateUser) => {
     try {
       await axios.post("http://localhost:3000/api/v1/register", userData, {
@@ -36,17 +38,44 @@ const LogInProvider = ({ children }: Props) => {
           secure: true,
           sameSite: "Strict",
         });
+
+        getUserData();
       }
     } catch (error: any) {
       console.error(error);
     }
   };
 
-  return (
-    <LogInContext.Provider value={{ createUser, signInUser }}>
+ const getUserData = async () => {
+  const token = Cookies.get("UserToken");
+  if (!token) return;
+
+  try {
+    const response = await fetch("http://localhost:3000/api/v1/userData", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    console.log("User data received:", data); // Debugging
+
+    if (data) {
+      setUserData(data); // Ensure state updates
+    }
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
+
+return (
+    <LogInContext.Provider value={{ createUser, signInUser, getUserData, userData }}>
       {children}
     </LogInContext.Provider>
   );
 };
 
 export default LogInProvider;
+

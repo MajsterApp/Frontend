@@ -34,7 +34,6 @@ const SignIn = () => {
       signInUser?.(userData);
 
       const token = Cookies.get("UserToken");
-
       if (token) {
         navigate("/home");
       }
