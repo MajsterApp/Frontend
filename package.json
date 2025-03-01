@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-email/components": "^0.0.33",
+    "@react-email/render": "^1.0.5",
     "@techni-tools/react-cli": "^0.1.11",
     "axios": "^1.7.9",
     "init": "^0.1.2",
@@ -18,7 +20,8 @@
     "react-dom": "^18.3.1",
     "react-icons": "^5.4.0",
     "react-router-dom": "^7.1.5",
-    "react-select": "^5.10.0"
+    "react-select": "^5.10.0",
+    "resend": "^4.1.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
