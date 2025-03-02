@@ -4,6 +4,7 @@ import CreateAccountClient from "./components/CreateAccountClient";
 import CreateAccountContractor from "./components/CreateAccountContractor";
 import SignIn from "./components/SignIn";
 import HomePage from "./components/HomePage";
+import VerifyAccount from "./components/VerifyAccount";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         element={<CreateAccountContractor />}
       />
       <Route path="/signin" element={<SignIn />} />
+      <Route path="verifyaccount" element={<VerifyAccount />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

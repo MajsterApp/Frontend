@@ -10,20 +10,22 @@ const LogInProvider = ({ children }: Props) => {
 
   const createUser = async (userData: CreateUser) => {
     try {
-      await axios.post("https://majsterapp.onrender.com/api/v1/register", userData, {
+      await axios.post("http://localhost:3000/api/v1/register", userData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
     } catch (error: any) {
-      console.error(error);
+      throw Error(
+        error.response?.data?.message || `Error creating user: ${error}`
+      );
     }
   };
 
   const signInUser = async (userData: SignInUser) => {
     try {
       const response = await axios.post(
-        "https://majsterapp.onrender.com/api/v1/login",
+        "http://localhost:3000/api/v1/login",
         userData,
         {
           headers: {
@@ -42,40 +44,46 @@ const LogInProvider = ({ children }: Props) => {
         getUserData();
       }
     } catch (error: any) {
-      console.error(error);
+      throw Error(
+        error.response?.data?.message || `Error with sign in: ${error}`
+      );
     }
   };
 
- const getUserData = async () => {
-  const token = Cookies.get("UserToken");
-  if (!token) return;
+  const getUserData = async () => {
+    const token = Cookies.get("UserToken");
+    if (!token) return;
 
-  try {
-    const response = await fetch("https://majsterapp.onrender.com/api/v1/userData", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/api/v1/userData",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    const data = await response.json();
-    console.log("User data received:", data); // Debugging
+      const data = await response.data;
 
-    if (data) {
-      setUserData(data); // Ensure state updates
+      if (data) {
+        setUserData(data);
+      }
+    } catch (error: any) {
+      throw Error(
+        error.response?.data?.message || `Error fetching user data: ${error}`
+      );
     }
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-};
+  };
 
-return (
-    <LogInContext.Provider value={{ createUser, signInUser, getUserData, userData }}>
+  return (
+    <LogInContext.Provider
+      value={{ createUser, signInUser, getUserData, userData }}
+    >
       {children}
     </LogInContext.Provider>
   );
 };
 
 export default LogInProvider;
-
