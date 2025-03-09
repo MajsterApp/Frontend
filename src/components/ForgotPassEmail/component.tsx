@@ -1,17 +1,29 @@
 import "./style.scss";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoMdMail } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { EmailContext } from "../context/EmailContext";
 
 const ForgotPassEmail = () => {
+  const { getToken, sendEmail } = useContext(EmailContext);
   const [email, setEmail] = useState<string>("");
 
-  const navigate = useNavigate();
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    navigate("/forgotpassword/newpassword");
+    if (!email) {
+      alert("Please enter your email.");
+      return;
+    }
+
+    try {
+      const token = await getToken(email);
+
+      if (token && sendEmail) {
+        await sendEmail( email, "Prośba o zmiane hasła");
+      }
+    } catch (error) {
+      console.error("Error during email and token request", error);
+    }
   };
 
   return (
@@ -43,3 +55,4 @@ const ForgotPassEmail = () => {
 };
 
 export default ForgotPassEmail;
+

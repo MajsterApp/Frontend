@@ -25,7 +25,7 @@ const LogInProvider = ({ children }: Props) => {
   const signInUser = async (userData: SignInUser) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/login",
+        "https://majsterapp.onrender.com/api/v1/login",
         userData,
         {
           headers: {
@@ -56,7 +56,7 @@ const LogInProvider = ({ children }: Props) => {
 
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/v1/userData",
+        "https://majsterapp.onrender.com/api/v1/userData",
         {
           headers: {
             "Content-Type": "application/json",
