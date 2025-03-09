@@ -1,4 +1,4 @@
-.sign-in {
+.select-account-type {
   background-color: var(--primary-background);
   display: flex;
 
@@ -21,71 +21,54 @@
           font-size: 2rem;
           font-weight: 500;
         }
+
+        & > p {
+          margin-top: 15px;
+          color: var(--secondary-font);
+          font-size: 1rem;
+          font-weight: 400;
+        }
       }
 
       & > form {
         display: flex;
         flex-direction: column;
-        margin-top: 30px;
+        margin-top: 50px;
 
         .input-with-icon {
-          position: relative;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
 
           & > input {
-            width: calc(27rem + 23px);
-            height: 2.5rem;
-            border: 1.5px solid var(--input-border);
-            border-radius: 5px;
-            outline: none;
-            margin-top: 20px;
-            text-indent: 40px;
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-right: 20px;
+          }
+
+          & > p {
             font-size: 1rem;
+            font-weight: 400;
           }
 
-          .icon {
-            position: absolute;
-            right: 15px;
-            top: 65%;
-            transform: translateY(-50%);
-            color: var(--icon);
-            border: none;
-            border: none;
-            background: none;
-            font-size: 1.2rem;
-            padding: 0;
-          }
-
-          .left {
-            left: 10px;
-          }
-
-          .eye {
-            cursor: pointer;
+          &:nth-last-child(2) {
+            margin-top: 10px;
           }
         }
 
-        .links {
+        .link {
           display: flex;
-          justify-content: space-between;
-          margin-top: 20px;
-
-          .link {
-            color: var(--button);
-            text-decoration: underline;
-          }
-        }
-
-        & > button {
-          width: 100%;
+          justify-content: center;
+          align-items: center;
+          width: calc(27rem + 23px);
           height: 2.5rem;
           border-radius: 5px;
           color: var(--white-font);
           font-size: 1rem;
           font-weight: 400;
           background-color: var(--button);
-          border: none;
-          cursor: pointer;
           margin-top: 50px;
+          text-decoration: none;
         }
       }
     }

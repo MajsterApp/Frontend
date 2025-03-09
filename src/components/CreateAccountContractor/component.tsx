@@ -17,7 +17,9 @@ const CreateAccountContractor = () => {
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
   const [jobs, setJobs] = useState<{ value: string; label: string }[]>([]);
-  const [region, setRegion] = useState<string>("");
+  const [region, setRegion] = useState<{ value: string; label: string } | null>(
+    null
+  );
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isRepeatPasswordVisible, setIsRepeatPasswordVisible] =
     useState<boolean>(false);
@@ -45,7 +47,7 @@ const CreateAccountContractor = () => {
       email,
       password,
       jobs: jobs.map((job) => job.value),
-      region,
+      region: region ? region.value : "",
     };
 
     try {
@@ -57,7 +59,7 @@ const CreateAccountContractor = () => {
       setPassword("");
       setRepeatPassword("");
       setJobs([]);
-      setRegion("");
+      setRegion(null);
 
       alert("Successfully created account.");
     } catch (error) {
@@ -74,9 +76,18 @@ const CreateAccountContractor = () => {
     setIsRepeatPasswordVisible((prev) => !prev);
   };
 
-  const options = [
+  const jobOptions = [
     { value: "remonty", label: "Remonty" },
     { value: "instalacje", label: "Instalacje" },
+  ];
+
+  const cityOptions = [
+    { value: "warszawa", label: "Warszawa" },
+    { value: "krakow", label: "Kraków" },
+    { value: "poznan", label: "Poznań" },
+    { value: "lodz", label: "Łódź" },
+    { value: "szczecin", label: "Szczecin" },
+    { value: "wroclaw", label: "Wrocław" },
   ];
 
   const customStyles = {
@@ -223,24 +234,24 @@ const CreateAccountContractor = () => {
               <p>Wykonywane usługi:</p>
               <Select
                 isMulti
-                options={options}
+                options={jobOptions}
                 value={jobs}
                 onChange={(selectedOptions) =>
                   setJobs(selectedOptions as { value: string; label: string }[])
                 }
                 styles={customStyles}
+                placeholder="Wybierz usługi..."
               />
             </figure>
             <figure className="city">
-              <p>Rejon działania</p>
-              <figure>
-                <p>Miasto: </p>
-                <input
-                  type="text"
-                  value={region}
-                  onChange={(e) => setRegion(e.target.value)}
-                />
-              </figure>
+              <p>Miasto: </p>
+              <Select
+                options={cityOptions}
+                value={region}
+                onChange={(selectedOptions) => setRegion(selectedOptions)}
+                styles={customStyles}
+                placeholder="Wybierz miasto..."
+              />
             </figure>
             <button type="submit">Stwórz konto</button>
           </form>

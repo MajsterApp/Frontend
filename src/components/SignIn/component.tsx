@@ -7,6 +7,7 @@ import { IoMdEyeOff } from "react-icons/io";
 import { LogInContext } from "../../contexts/LogInContext/context";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const SignIn = () => {
   const { signInUser } = useContext(LogInContext);
@@ -85,6 +86,14 @@ const SignIn = () => {
                   onClick={changePasswordVisibility}
                 />
               )}
+            </figure>
+            <figure className="links">
+              <NavLink className="link" to="/createaccount/select">
+                Zarejestruj się
+              </NavLink>
+              <NavLink className="link" to="/forgotpassword/email">
+                Nie pamiętam hasła
+              </NavLink>
             </figure>
             <button type="submit">Zaloguj się</button>
           </form>

@@ -1,4 +1,4 @@
-.create-account-contractor {
+.forgot-pass-new-pass {
   background-color: var(--primary-background);
   display: flex;
 
@@ -92,44 +92,6 @@
 
           .eye {
             cursor: pointer;
-          }
-        }
-
-        .services {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: center;
-          margin-top: 50px;
-
-          & > p {
-            font-size: 1rem;
-            font-weight: 400;
-            color: var(--black-font);
-          }
-        }
-
-        .city {
-          margin-top: 20px;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
-          margin-top: 20px;
-
-          & > p {
-            color: var(--black-font);
-            font-size: 1rem;
-            font-weight: 400;
-          }
-
-          & > input {
-            border: none;
-            border-bottom: 1px solid black;
-            outline: none;
-            margin-left: 10px;
-            font-size: 1rem;
-            font-weight: 400;
           }
         }
 

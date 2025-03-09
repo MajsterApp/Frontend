@@ -12,14 +12,10 @@
 
     & > .link {
       margin: 20px;
-      color: var(--black-font);
-      text-decoration: none;
+      color: var(--secondary-font);
+      text-decoration: underline;
       font-size: 1rem;
       font-weight: 400;
-
-      &:hover {
-        text-decoration: underline;
-      }
     }
   }
 }
