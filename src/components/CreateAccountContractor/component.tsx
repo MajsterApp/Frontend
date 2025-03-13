@@ -7,6 +7,8 @@ import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 import { LogInContext } from "../../contexts/LogInContext/context";
 import Select from "react-select";
+import { toast } from "react-toastify";
+import citiesData from "../../mocks/cities.json";
 
 const CreateAccountContractor = () => {
   const { createUser } = useContext(LogInContext);
@@ -37,7 +39,14 @@ const CreateAccountContractor = () => {
       !region ||
       password != repeatPassword
     ) {
-      alert("Fields are empty or passwords does not match.");
+      toast.error("Pola nie mogą byc puste!", {
+        position: "top-left",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    if (!validatePassword(password)) {
       return;
     }
 
@@ -61,11 +70,34 @@ const CreateAccountContractor = () => {
       setJobs([]);
       setRegion(null);
 
-      alert("Successfully created account.");
+      toast.success("Pomyślnie założono konto!", {
+        position: "top-left",
+        autoClose: 3000,
+      });
     } catch (error) {
-      alert("There was a problem with account creation.");
-      console.error(error);
+      toast.error("Wystąpił problem przy zakładaniu konta!", {
+        position: "top-left",
+        autoClose: 3000,
+      });
     }
+  };
+
+  const validatePassword = (password: string) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      toast.error(
+        "Hasło musi zawierać co najmniej 8 znaków, wielką literę, cyfrę i znak specjalny!",
+        {
+          position: "top-left",
+          autoClose: 3000,
+        }
+      );
+      return false;
+    }
+
+    return true;
   };
 
   const changePasswordVisibility = () => {
@@ -77,18 +109,13 @@ const CreateAccountContractor = () => {
   };
 
   const jobOptions = [
-    { value: "remonty", label: "Remonty" },
-    { value: "instalacje", label: "Instalacje" },
+    { value: "Remonty", label: "Remonty" },
+    { value: "Instalacje", label: "Instalacje" },
   ];
 
-  const cityOptions = [
-    { value: "warszawa", label: "Warszawa" },
-    { value: "krakow", label: "Kraków" },
-    { value: "poznan", label: "Poznań" },
-    { value: "lodz", label: "Łódź" },
-    { value: "szczecin", label: "Szczecin" },
-    { value: "wroclaw", label: "Wrocław" },
-  ];
+  const regionOptions = (cities: string[]) => {
+    return cities.map((city) => ({ value: city, label: city }));
+  };
 
   const customStyles = {
     control: (provided: any, state: any) => ({
@@ -244,13 +271,18 @@ const CreateAccountContractor = () => {
               />
             </figure>
             <figure className="city">
-              <p>Miasto: </p>
+              <p>Obszar działania: </p>
               <Select
-                options={cityOptions}
+                options={regionOptions(
+                  citiesData.cities.map((city) => city.value)
+                )}
                 value={region}
-                onChange={(selectedOptions) => setRegion(selectedOptions)}
+                onChange={(selectedOptions) => {
+                  console.log("Selected region:", selectedOptions);
+                  setRegion(selectedOptions);
+                }}
                 styles={customStyles}
-                placeholder="Wybierz miasto..."
+                placeholder="Wyszukaj miasto..."
               />
             </figure>
             <button type="submit">Stwórz konto</button>

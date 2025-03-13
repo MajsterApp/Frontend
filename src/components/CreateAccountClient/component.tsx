@@ -6,6 +6,7 @@ import { IoMdMail } from "react-icons/io";
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 import { LogInContext } from "../../contexts/LogInContext/context";
+import { toast } from "react-toastify";
 
 const CreateAccountClient = () => {
   const { createUser } = useContext(LogInContext);
@@ -30,7 +31,14 @@ const CreateAccountClient = () => {
       !repeatPassword ||
       password != repeatPassword
     ) {
-      alert("Fields are empty or passwords does not match.");
+      toast.error("Pola nie mogą byc puste!", {
+        position: "top-left",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    if (!validatePassword(password)) {
       return;
     }
 
@@ -50,11 +58,34 @@ const CreateAccountClient = () => {
       setPassword("");
       setRepeatPassword("");
 
-      alert("Successfully created account.");
+      toast.success("Pomyślnie założono konto!", {
+        position: "top-left",
+        autoClose: 3000,
+      });
     } catch (error) {
-      alert("There was a problem with account creation.");
-      console.error(error);
+      toast.error("Wystąpił problem przy zakładaniu konta!", {
+        position: "top-left",
+        autoClose: 3000,
+      });
     }
+  };
+
+  const validatePassword = (password: string) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      toast.error(
+        "Hasło musi zawierać co najmniej 8 znaków, wielką literę, cyfrę i znak specjalny!",
+        {
+          position: "top-left",
+          autoClose: 3000,
+        }
+      );
+      return false;
+    }
+
+    return true;
   };
 
   const changePasswordVisibility = () => {

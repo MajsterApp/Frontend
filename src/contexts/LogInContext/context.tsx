@@ -10,11 +10,15 @@ const LogInProvider = ({ children }: Props) => {
 
   const createUser = async (userData: CreateUser) => {
     try {
-      await axios.post("http://localhost:3000/api/v1/register", userData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      await axios.post(
+        "https://majsterapp.onrender.com/api/v1/register",
+        userData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
     } catch (error: any) {
       throw Error(
         error.response?.data?.message || `Error creating user: ${error}`
@@ -25,7 +29,7 @@ const LogInProvider = ({ children }: Props) => {
   const signInUser = async (userData: SignInUser) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/login",
+        "https://majsterapp.onrender.com/api/v1/login",
         userData,
         {
           headers: {
@@ -56,7 +60,7 @@ const LogInProvider = ({ children }: Props) => {
 
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/v1/userData",
+        "https://majsterapp.onrender.com/api/v1/userData",
         {
           headers: {
             "Content-Type": "application/json",

@@ -8,6 +8,7 @@ import { LogInContext } from "../../contexts/LogInContext/context";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SignIn = () => {
   const { signInUser } = useContext(LogInContext);
@@ -22,7 +23,10 @@ const SignIn = () => {
     e.preventDefault();
 
     if (!email || !password) {
-      alert("Fields are empty or passwords does not match.");
+      toast.error("Pola nie mogą byc puste!", {
+        position: "top-left",
+        autoClose: 3000,
+      });
       return;
     }
 
@@ -42,7 +46,10 @@ const SignIn = () => {
       setEmail("");
       setPassword("");
     } catch (error) {
-      console.error(error);
+      toast.error("Błędny email lub hasło!", {
+        position: "top-left",
+        autoClose: 3000,
+      });
     }
   };
 

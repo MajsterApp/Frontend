@@ -15,7 +15,7 @@ const EmailProvider = ({ children }: Props) => {
       if (!token) return;
 
       const response = await axios.get(
-        "http://localhost:3000/api/v1/verification",
+        "https://majsterapp.onrender.com/api/v1/verification",
         {
           headers: {
             "Content-Type": "application/json",
@@ -43,8 +43,6 @@ const EmailProvider = ({ children }: Props) => {
         subject: "Welcome!",
         html: emailHtml,
       });
-
-      console.log("Email sent successfully!");
     } catch (error: any) {
       throw Error(
         error.response?.data?.message ||
