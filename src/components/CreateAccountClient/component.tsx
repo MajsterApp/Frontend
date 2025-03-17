@@ -7,9 +7,11 @@ import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 import { LogInContext } from "../../contexts/LogInContext/context";
 import { toast } from "react-toastify";
+import { EmailContext } from "../../contexts/EmailContext/context";
 
 const CreateAccountClient = () => {
   const { createUser } = useContext(LogInContext);
+  const { sendEmail } = useContext(EmailContext);
 
   const [name, setName] = useState<string>("");
   const [surname, setSurname] = useState<string>("");
@@ -17,21 +19,14 @@ const CreateAccountClient = () => {
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
-  const [isRepeatPasswordVisible, setIsRepeatPasswordVisible] =
-    useState<boolean>(false);
+  const [isRepeatPasswordVisible, setIsRepeatPasswordVisible] = useState<boolean>(false);
+  const role = "Klient";
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (
-      !name ||
-      !surname ||
-      !email ||
-      !password ||
-      !repeatPassword ||
-      password != repeatPassword
-    ) {
-      toast.error("Pola nie mogą byc puste!", {
+    if (!name || !surname || !email || !password || !repeatPassword || password !== repeatPassword) {
+      toast.error("Pola nie mogą być puste!", {
         position: "top-left",
         autoClose: 3000,
       });
@@ -42,28 +37,43 @@ const CreateAccountClient = () => {
       return;
     }
 
-    const userData = {
-      name,
-      surname,
-      email,
-      password,
+    const emailData = {
+      to: email,
+      subject: "Potwierdzenie rejestracji",
+      html: `<p>Witaj ${name},</p><p>Dziękujemy za rejestrację w MajsterApp!</p>`,
     };
 
     try {
-      createUser?.(userData);
+      // Sending the email using the corrected sendEmail
+      await sendEmail(emailData.html, emailData.to, emailData.subject);
 
-      setName("");
-      setSurname("");
-      setEmail("");
-      setPassword("");
-      setRepeatPassword("");
-
-      toast.success("Pomyślnie założono konto!", {
+      toast.success("Email potwierdzający wysłany!", {
         position: "top-left",
         autoClose: 3000,
       });
+
+       const userData = {
+         name,
+         surname,
+         email,
+         password,
+         role,
+       };
+
+       createUser?.(userData);
+
+       setName("");
+       setSurname("");
+       setEmail("");
+       setPassword("");
+       setRepeatPassword("");
+
+       toast.success("Pomyślnie założono konto!", {
+         position: "top-left",
+         autoClose: 3000,
+       });
     } catch (error) {
-      toast.error("Wystąpił problem przy zakładaniu konta!", {
+      toast.error("Wystąpił problem przy wysyłaniu emaila!", {
         position: "top-left",
         autoClose: 3000,
       });
@@ -185,3 +195,4 @@ const CreateAccountClient = () => {
 };
 
 export default CreateAccountClient;
+

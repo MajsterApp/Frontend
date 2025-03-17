@@ -1,6 +1,5 @@
 import { createContext, useState } from "react";
 import { Props, ContextType } from "./types";
-import { Resend } from "resend";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -33,23 +32,29 @@ const EmailProvider = ({ children }: Props) => {
     }
   };
 
-  const sendEmail = async (emailHtml: string, email: string) => {
+const sendEmail = async (emailHtml: string, email: string, subject: string) => {
+    const emailData = {
+        email,
+        emailHtml,
+        subject
+    }
+    console.log(emailData);
     try {
-      const resend = new Resend(process.env.EMAIL_API_KEY);
-
-      await resend.emails.send({
-        from: "onboarding@resend.dev",
-        to: email,
-        subject: "Welcome!",
-        html: emailHtml,
-      });
+      await axios.post(
+        "https://majsterapp.onrender.com/api/v1/sendEmail",
+        emailData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
     } catch (error: any) {
       throw Error(
-        error.response?.data?.message ||
-          `Error sending an verify email: ${error}`
+        error.response?.data?.message || `Error sending user: ${error}`
       );
     }
-  };
+};
 
   return (
     <EmailContext.Provider value={{ verifyEmail, sendEmail, message }}>

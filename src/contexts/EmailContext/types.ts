@@ -1,6 +1,6 @@
 export interface ContextType {
   verifyEmail: () => Promise<void>;
-  sendEmail: (emailHtml: string, email: string) => void;
+  sendEmail: (emailHtml: string, email: string, subject: string) => void;
   message: string;
 }
 

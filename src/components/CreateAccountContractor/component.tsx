@@ -22,6 +22,7 @@ const CreateAccountContractor = () => {
   const [region, setRegion] = useState<{ value: string; label: string } | null>(
     null
   );
+  const role = "Wykonawca";
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isRepeatPasswordVisible, setIsRepeatPasswordVisible] =
     useState<boolean>(false);
@@ -57,11 +58,12 @@ const CreateAccountContractor = () => {
       password,
       jobs: jobs.map((job) => job.value),
       region: region ? region.value : "",
+      role,
     };
 
     try {
       createUser?.(userData);
-
+        console.log(userData);
       setName("");
       setSurname("");
       setEmail("");
