@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { EmailContext } from "../../contexts/EmailContext/context";
 
 const CreateAccountClient = () => {
-  const { createUser } = useContext(LogInContext);
+  const { signUp } = useContext(LogInContext);
   const { sendEmail } = useContext(EmailContext);
 
   const [name, setName] = useState<string>("");
@@ -19,14 +19,22 @@ const CreateAccountClient = () => {
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
-  const [isRepeatPasswordVisible, setIsRepeatPasswordVisible] = useState<boolean>(false);
-  const role = "Klient";
+  const [isRepeatPasswordVisible, setIsRepeatPasswordVisible] =
+    useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name || !surname || !email || !password || !repeatPassword || password !== repeatPassword) {
-      toast.error("Pola nie mogą być puste!", {
+    if (!name || !surname || !email || !password || !repeatPassword) {
+      toast.error("Pola nie mogą byc puste!", {
+        position: "top-left",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    if (password != repeatPassword) {
+      toast.error("Hasła muszą się zgadzać!", {
         position: "top-left",
         autoClose: 3000,
       });
@@ -37,41 +45,54 @@ const CreateAccountClient = () => {
       return;
     }
 
-    const emailData = {
-      to: email,
+    const emailHtml = `
+      <h2>Witaj ${name}!</h2>
+      <p>Dziękujemy za rejestrację w MajsterApp. Kliknij w poniższy link, aby zweryfikować konto:</p>
+      <a href="https://twoja-strona.pl/verify?email=${email}">Zweryfikuj konto</a>
+    `;
+
+    const emailContent = {
+      emailHtml: emailHtml,
+      email: email,
       subject: "Potwierdzenie rejestracji",
-      html: `<p>Witaj ${name},</p><p>Dziękujemy za rejestrację w MajsterApp!</p>`,
     };
 
     try {
-      // Sending the email using the corrected sendEmail
-      await sendEmail(emailData.html, emailData.to, emailData.subject);
+      await sendEmail?.(emailContent);
 
-      toast.success("Email potwierdzający wysłany!", {
+      setName("");
+      setSurname("");
+      setEmail("");
+      setPassword("");
+      setRepeatPassword("");
+
+      toast.success("Pomyślnie założono konto!", {
         position: "top-left",
         autoClose: 3000,
       });
 
-       const userData = {
-         name,
-         surname,
-         email,
-         password,
-         role,
-       };
+      const role = "Klient";
 
-       createUser?.(userData);
+      const userData = {
+        name,
+        surname,
+        email,
+        password,
+        role,
+      };
 
-       setName("");
-       setSurname("");
-       setEmail("");
-       setPassword("");
-       setRepeatPassword("");
+      await signUp?.(userData);
 
-       toast.success("Pomyślnie założono konto!", {
-         position: "top-left",
-         autoClose: 3000,
-       });
+      setName("");
+      setSurname("");
+      setEmail("");
+      setPassword("");
+      setRepeatPassword("");
+
+      toast.success("Pomyślnie założono konto!", {
+        position: "top-left",
+        autoClose: 3000,
+      });
     } catch (error) {
       toast.error("Wystąpił problem przy wysyłaniu emaila!", {
         position: "top-left",
@@ -195,4 +216,3 @@ const CreateAccountClient = () => {
 };
 
 export default CreateAccountClient;
-

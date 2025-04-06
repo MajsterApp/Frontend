@@ -1,24 +1,21 @@
-import { createContext, useState } from "react";
-import { Props, ContextType, CreateUser, SignInUser, UserData } from "./types";
+import { createContext, useContext } from "react";
+import { Props, ContextType, SignUp, SignIn } from "./types";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { UserContext } from "../UserContext/context";
 
 export const LogInContext = createContext<Partial<ContextType>>({});
 
 const LogInProvider = ({ children }: Props) => {
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const { getUserData } = useContext(UserContext);
 
-  const createUser = async (userData: CreateUser) => {
+  const signUp = async (userData: SignUp) => {
     try {
-      await axios.post(
-        "https://majsterapp.onrender.com/api/v1/register",
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      await axios.post("http://localhost:3000/api/v1/register", userData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
     } catch (error: any) {
       throw Error(
         error.response?.data?.message || `Error creating user: ${error}`
@@ -26,10 +23,10 @@ const LogInProvider = ({ children }: Props) => {
     }
   };
 
-  const signInUser = async (userData: SignInUser) => {
+  const signIn = async (userData: SignIn) => {
     try {
       const response = await axios.post(
-        "https://majsterapp.onrender.com/api/v1/login",
+        "http://localhost:3000/api/v1/login",
         userData,
         {
           headers: {
@@ -45,7 +42,7 @@ const LogInProvider = ({ children }: Props) => {
           sameSite: "Strict",
         });
 
-        getUserData();
+        getUserData?.();
       }
     } catch (error: any) {
       throw Error(
@@ -54,37 +51,8 @@ const LogInProvider = ({ children }: Props) => {
     }
   };
 
-  const getUserData = async () => {
-    const token = Cookies.get("UserToken");
-    if (!token) return;
-
-    try {
-      const response = await axios.get(
-        "https://majsterapp.onrender.com/api/v1/userData",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const data = await response.data;
-
-      if (data) {
-        setUserData(data);
-      }
-    } catch (error: any) {
-      throw Error(
-        error.response?.data?.message || `Error fetching user data: ${error}`
-      );
-    }
-  };
-
   return (
-    <LogInContext.Provider
-      value={{ createUser, signInUser, getUserData, userData }}
-    >
+    <LogInContext.Provider value={{ signUp, signIn }}>
       {children}
     </LogInContext.Provider>
   );

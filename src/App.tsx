@@ -6,8 +6,8 @@ import SignIn from "./components/SignIn";
 import HomePage from "./components/HomePage";
 import VerifyAccount from "./components/VerifyAccount";
 import SelectAccountType from "./components/SelectAccountType";
-import ForgotPassEmail from "./components/ForgotPassEmail";
-import ForgotPassNewPass from "./components/ForgotPassNewPass";
+import ForgotPasswordEmail from "./components/ForgotPasswordEmail";
+import ForgotPasswordNewPassword from "./components/ForgotPasswordNewPassword";
 import { ToastContainer } from "react-toastify";
 
 function App() {
@@ -23,10 +23,10 @@ function App() {
           element={<CreateAccountContractor />}
         />
         <Route path="/createaccount/select" element={<SelectAccountType />} />
-        <Route path="/forgotpassword/email" element={<ForgotPassEmail />} />
+        <Route path="/forgotpassword/email" element={<ForgotPasswordEmail />} />
         <Route
           path="/forgotpassword/newpassword"
-          element={<ForgotPassNewPass />}
+          element={<ForgotPasswordNewPassword />}
         />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/verifyaccount" element={<VerifyAccount />} />

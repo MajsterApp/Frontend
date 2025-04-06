@@ -9,9 +9,11 @@ import { LogInContext } from "../../contexts/LogInContext/context";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import citiesData from "../../mocks/cities.json";
+import jobsData from "../../mocks/jobs.json";
+import customStyles from "./selectStyles";
 
 const CreateAccountContractor = () => {
-  const { createUser } = useContext(LogInContext);
+  const { signUp } = useContext(LogInContext);
 
   const [name, setName] = useState<string>("");
   const [surname, setSurname] = useState<string>("");
@@ -37,10 +39,17 @@ const CreateAccountContractor = () => {
       !password ||
       !repeatPassword ||
       !jobs ||
-      !region ||
-      password != repeatPassword
+      !region
     ) {
       toast.error("Pola nie mogą byc puste!", {
+        position: "top-left",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    if (password != repeatPassword) {
+      toast.error("Hasła muszą się zgadzać!", {
         position: "top-left",
         autoClose: 3000,
       });
@@ -62,8 +71,8 @@ const CreateAccountContractor = () => {
     };
 
     try {
-      createUser?.(userData);
-        console.log(userData);
+      signUp?.(userData);
+
       setName("");
       setSurname("");
       setEmail("");
@@ -110,76 +119,8 @@ const CreateAccountContractor = () => {
     setIsRepeatPasswordVisible((prev) => !prev);
   };
 
-  const jobOptions = [
-    { value: "Remonty", label: "Remonty" },
-    { value: "Instalacje", label: "Instalacje" },
-  ];
-
-  const regionOptions = (cities: string[]) => {
-    return cities.map((city) => ({ value: city, label: city }));
-  };
-
-  const customStyles = {
-    control: (provided: any, state: any) => ({
-      ...provided,
-      fontSize: "1rem",
-      fontWeight: 400,
-      color: "var(--grey-font)",
-      height: "2rem",
-      width: "15rem",
-      border: "1.5px solid #260101",
-      borderRadius: "5px",
-      outline: "none",
-      display: "flex",
-      overflow: "hidden",
-      boxShadow: state.isFocused ? "none" : "none",
-      "&:hover": {
-        border: "1.5px solid #260101",
-      },
-    }),
-    valueContainer: (provided: any) => ({
-      ...provided,
-      height: "2rem",
-      overflow: "hidden",
-      display: "flex",
-      flexWrap: "nowrap",
-    }),
-    multiValue: (provided: any) => ({
-      ...provided,
-      backgroundColor: "#260101",
-      color: "white",
-      borderRadius: "3px",
-      fontSize: "0.9rem",
-      padding: "0 5px",
-      height: "1.5rem",
-      display: "flex",
-      alignItems: "center",
-    }),
-    multiValueLabel: (provided: any) => ({
-      ...provided,
-      color: "white",
-    }),
-    multiValueRemove: (provided: any) => ({
-      ...provided,
-      color: "white",
-      cursor: "pointer",
-      ":hover": {
-        backgroundColor: "red",
-        color: "white",
-      },
-    }),
-    menu: (provided: any) => ({
-      ...provided,
-      width: "15rem",
-    }),
-    option: (provided: any, state: any) => ({
-      ...provided,
-      backgroundColor: state.isSelected ? "#260101" : "white",
-      color: state.isSelected ? "white" : "black",
-      "&:hover": {
-        backgroundColor: "#d3d3d3",
-      },
-    }),
+  const getOptions = (tab: string[]) => {
+    return tab.map((option) => ({ value: option, label: option }));
   };
 
   return (
@@ -263,7 +204,7 @@ const CreateAccountContractor = () => {
               <p>Wykonywane usługi:</p>
               <Select
                 isMulti
-                options={jobOptions}
+                options={getOptions(jobsData.jobs.map((job) => job.value))}
                 value={jobs}
                 onChange={(selectedOptions) =>
                   setJobs(selectedOptions as { value: string; label: string }[])
@@ -275,12 +216,11 @@ const CreateAccountContractor = () => {
             <figure className="city">
               <p>Obszar działania: </p>
               <Select
-                options={regionOptions(
+                options={getOptions(
                   citiesData.cities.map((city) => city.value)
                 )}
                 value={region}
                 onChange={(selectedOptions) => {
-                  console.log("Selected region:", selectedOptions);
                   setRegion(selectedOptions);
                 }}
                 styles={customStyles}

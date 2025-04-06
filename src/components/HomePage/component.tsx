@@ -1,8 +1,8 @@
 import { useContext, useEffect } from "react";
-import { LogInContext } from "../../contexts/LogInContext/context.tsx";
+import { UserContext } from "../../contexts/UserContext/context.tsx";
 
 const HomePage = () => {
-  const { userData, getUserData } = useContext(LogInContext);
+  const { userData, getUserData } = useContext(UserContext);
 
   useEffect(() => {
     if (!userData) {

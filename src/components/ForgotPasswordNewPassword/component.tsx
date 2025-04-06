@@ -2,17 +2,81 @@ import "./style.scss";
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 import { IoMdLock } from "react-icons/io";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ChangePasswordContext } from "../../contexts/ChangePassword/context";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ForgotPassNewPass = () => {
+  const { changePassword } = useContext(ChangePasswordContext);
+
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isRepeatPasswordVisible, setIsRepeatPasswordVisible] =
     useState<boolean>(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!password || !repeatPassword) {
+      toast.error("Pola nie mogą byc puste!", {
+        position: "top-left",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    if (password != repeatPassword) {
+      toast.error("Hasła muszą się zgadzać!", {
+        position: "top-left",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      return;
+    }
+
+    try {
+      await changePassword?.(password);
+
+      setPassword("");
+      setRepeatPassword("");
+
+      toast.success("Pomyślnie zmieniono hasło!", {
+        position: "top-left",
+        autoClose: 3000,
+      });
+
+      navigate("/signin");
+    } catch (error) {
+      toast.error("Wystąpił problem przy zmianie hasła!", {
+        position: "top-left",
+        autoClose: 3000,
+      });
+    }
+  };
+
+  const validatePassword = (password: string) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      toast.error(
+        "Hasło musi zawierać co najmniej 8 znaków, wielką literę, cyfrę i znak specjalny!",
+        {
+          position: "top-left",
+          autoClose: 3000,
+        }
+      );
+      return false;
+    }
+
+    return true;
   };
 
   const changePasswordVisibility = () => {

@@ -1,14 +1,14 @@
 import "./style.scss";
 import { useContext } from "react";
-import { EmailContext } from "../../contexts/EmailContext/context";
+import { UserContext } from "../../contexts/UserContext/context";
 
 const VerifyAccount = () => {
-  const { message } = useContext(EmailContext);
+  const { verifyMessage } = useContext(UserContext);
 
   return (
     <main className="verify-account">
       <section>
-        <h1>{message}</h1>
+        <h1>{verifyMessage}</h1>
       </section>
     </main>
   );

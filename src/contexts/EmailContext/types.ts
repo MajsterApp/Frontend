@@ -1,7 +1,11 @@
+export interface emailContent {
+  emailHtml: string;
+  email: string;
+  subject: string;
+}
+
 export interface ContextType {
-  verifyEmail: () => Promise<void>;
-  sendEmail: (emailHtml: string, email: string, subject: string) => void;
-  message: string;
+  sendEmail: (emailContent: emailContent) => void;
 }
 
 export type OwnProps = { children: React.ReactNode };

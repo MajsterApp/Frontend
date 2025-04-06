@@ -1,5 +1,5 @@
 export interface ContextType {
-    getListOfCities: (city: string) => Promise<void>;
+  changePassword: (password: string) => void;
 }
 
 export type OwnProps = { children: React.ReactNode };

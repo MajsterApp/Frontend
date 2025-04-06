@@ -1,17 +1,45 @@
 import "./style.scss";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoMdMail } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext/context";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 const ForgotPassEmail = () => {
+  const { verifyUser, generateToken } = useContext(UserContext);
+
   const [email, setEmail] = useState<string>("");
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    navigate("/forgotpassword/newpassword");
+    if (!email) {
+      toast.error("Pola nie mogą byc puste!", {
+        position: "top-left",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    try {
+      await verifyUser?.();
+
+      await generateToken?.(email);
+
+      const token = Cookies.get("UserToken");
+
+      if (token) {
+        navigate("/forgotpassword/newpassword");
+      }
+    } catch (error) {
+      toast.error("Wystąpił problem przy zmianie hasła!", {
+        position: "top-left",
+        autoClose: 3000,
+      });
+    }
   };
 
   return (

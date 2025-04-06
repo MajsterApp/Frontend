@@ -11,7 +11,7 @@ import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const SignIn = () => {
-  const { signInUser } = useContext(LogInContext);
+  const { signIn } = useContext(LogInContext);
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -36,9 +36,10 @@ const SignIn = () => {
     };
 
     try {
-      signInUser?.(userData);
+      signIn?.(userData);
 
       const token = Cookies.get("UserToken");
+
       if (token) {
         navigate("/home");
       }

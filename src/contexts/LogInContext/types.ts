@@ -1,4 +1,4 @@
-export interface CreateUser {
+export interface SignUp {
   name: string;
   surname: string;
   email: string;
@@ -7,28 +7,16 @@ export interface CreateUser {
   region?: string;
 }
 
-export interface SignInUser {
+export interface SignIn {
   email: string;
   password: string;
-}
-
-export interface UserData {
-  email: string;
-  name: string;
-  surname: string;
-  region?: string;
-  jobs?: string[];
-  role: string;
 }
 
 export interface ContextType {
-  createUser: (userData: CreateUser) => void;
-  signInUser: (userData: SignInUser) => void;
-  getUserData: () => Promise<void>;
-  userData: UserData | null;
+  signUp: (userData: SignUp) => void;
+  signIn: (userData: SignIn) => void;
 }
 
 export type OwnProps = { children: React.ReactNode };
 
 export type Props = OwnProps;
-

@@ -6,7 +6,7 @@ export default function VerifyEmail() {
       <Head />
       <Body>
         <Container>
-          <Text>Hello, welcome to our service!</Text>
+          <Text>Dziękujemy za rejestrację w MajsterApp!</Text>
         </Container>
       </Body>
     </Html>

@@ -1,0 +1,15 @@
+{
+  "jobs": [
+    { "value": "Remonty", "label": "Remonty" },
+    { "value": "Instalacje", "label": "Instalacje" },
+    { "value": "Malowanie", "label": "Malowanie" },
+    { "value": "Tapetowanie", "label": "Tapetowanie" },
+    { "value": "Układanie płytek", "label": "Układanie płytek" },
+    { "value": "Montaż mebli", "label": "Montaż mebli" },
+    { "value": "Naprawa sprzętu AGD", "label": "Naprawa sprzętu AGD" },
+    { "value": "Hydraulika", "label": "Hydraulika" },
+    { "value": "Elektryka", "label": "Elektryka" },
+    { "value": "Sprzątanie", "label": "Sprzątanie" },
+    { "value": "Prace ogrodowe", "label": "Prace ogrodowe" }
+  ]
+}
